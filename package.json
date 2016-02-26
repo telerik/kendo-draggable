@@ -1,29 +1,25 @@
 {
-  "name": "@telerik/kendo-react-component-base",
+  "name": "@telerik/kendo-package-base",
   "version": "0.1.0",
-  "description": "Kendo UI React component starter template",
-  "repository": "telerik/kendo-react-component-base",
-  "main": "dist/npm/js/index.js",
+  "description": "Kendo UI NPM Package starter template",
+  "repository": "telerik/kendo-package-base",
+  "main": "dist/npm/js/Feature.js",
   "scripts": {
     "test": "gulp test",
     "start": "gulp start",
     "lint": "gulp lint"
   },
   "keywords": [
-    "Kendo UI",
-    "React"
+    "Kendo UI"
   ],
   "dependencies": {
-    "react": "~0.14.3",
-    "react-dom": "~0.14.3"
   },
   "devDependencies": {
     "@telerik/eslint-config": "telerik/eslint-config-kendo#master",
     "cz-conventional-changelog": "^1.1.5",
     "ghooks": "^1.0.3",
     "gulp": "3.9.0",
-    "@telerik/kendo-react-tasks": "telerik/kendo-react-tasks#master",
-    "@telerik/kendo-theme-default": "telerik/kendo-theme-default#master",
+    "@telerik/kendo-package-tasks": "telerik/kendo-package-tasks#master",
     "validate-commit-msg": "^1.1.1"
   },
   "author": "Telerik",

@@ -1,4 +1,1 @@
-require('@telerik/kendo-react-tasks')(
-  require('gulp'),
-  'kendo-react-component-base'
-);
+require('@telerik/kendo-package-tasks')(require('gulp'), 'kendo-package-base');

@@ -6,7 +6,6 @@
   "main": "dist/npm/js/Feature.js",
   "scripts": {
     "test": "gulp test",
-    "start": "gulp start",
     "lint": "gulp lint"
   },
   "keywords": [

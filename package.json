@@ -1,51 +1,52 @@
 {
-  "name": "@telerik/kendo-package-base",
-  "version": "0.1.0",
-  "description": "Kendo UI NPM Package starter template",
-  "repository": "telerik/kendo-package-base",
-  "main": "dist/npm/js/Feature.js",
-  "scripts": {
-    "test": "gulp test",
-    "lint": "gulp lint"
-  },
-  "keywords": [
-    "Kendo UI"
-  ],
-  "dependencies": {
-  },
-  "devDependencies": {
-    "@telerik/eslint-config": "telerik/eslint-config-kendo#master",
-    "cz-conventional-changelog": "^1.1.5",
-    "ghooks": "^1.0.3",
-    "gulp": "3.9.0",
-    "@telerik/kendo-package-tasks": "telerik/kendo-package-tasks#master",
-    "validate-commit-msg": "^1.1.1"
-  },
-  "author": "Telerik",
-  "license": "Apache-2.0",
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+    "name": "@telerik/kendo-package-base",
+    "version": "1.0.0",
+    "description": "Kendo UI NPM Package starter template",
+    "repository": "telerik/kendo-package-base",
+    "main": "dist/npm/js/Feature.js",
+    "scripts": {
+        "build-package": "gulp build-npm-package",
+        "test": "gulp test",
+        "lint": "gulp lint"
     },
-    "ghooks": {
-      "pre-commit": "npm run lint",
-      "commit-msg": "validate-commit-msg",
-      "pre-push": "npm run test"
+    "keywords": [
+        "Kendo UI"
+    ],
+    "dependencies": {
     },
-    "validate-commit-msg": {
-      "types": [
-        "feat",
-        "fix",
-        "docs",
-        "style",
-        "refactor",
-        "perf",
-        "test",
-        "chore",
-        "revert"
-      ],
-      "warnOnFail": false,
-      "maxSubjectLength": 100
+    "devDependencies": {
+        "@telerik/eslint-config": "^1.0.0",
+        "cz-conventional-changelog": "^1.1.5",
+        "ghooks": "^1.0.3",
+        "gulp": "3.9.0",
+        "@telerik/kendo-package-tasks": "^1.0.0",
+        "validate-commit-msg": "^1.1.1"
+    },
+    "author": "Telerik",
+    "license": "Apache-2.0",
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        },
+        "ghooks": {
+            "pre-commit": "npm run lint",
+            "commit-msg": "validate-commit-msg",
+            "pre-push": "npm run test"
+        },
+        "validate-commit-msg": {
+            "types": [
+                "feat",
+                "fix",
+                "docs",
+                "style",
+                "refactor",
+                "perf",
+                "test",
+                "chore",
+                "revert"
+            ],
+            "warnOnFail": false,
+            "maxSubjectLength": 100
+        }
     }
-  }
 }

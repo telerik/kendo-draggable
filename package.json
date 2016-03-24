@@ -6,6 +6,7 @@
     "url": "https://github.com/telerik/kendo-package-base.git"
   },
   "main": "dist/npm/js/Feature.js",
+  "typings": "dist/npm/js/bundle",
   "scripts": {
     "build-package": "gulp build-npm-package",
     "test": "gulp test",

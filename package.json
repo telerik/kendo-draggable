@@ -10,6 +10,7 @@
   "scripts": {
     "build-package": "gulp build-npm-package",
     "test": "gulp test",
+    "e2e": "gulp e2e",
     "lint": "gulp lint",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -19,10 +20,10 @@
   "dependencies": {},
   "devDependencies": {
     "@telerik/eslint-config": "^1.0.0",
+    "@telerik/kendo-package-tasks": "^1.2.0",
     "cz-conventional-changelog": "^1.1.5",
     "ghooks": "^1.0.3",
     "gulp": "3.9.0",
-    "@telerik/kendo-package-tasks": "^1.0.0",
     "validate-commit-msg": "^1.1.1",
     "semantic-release": "^4.3.5"
   },

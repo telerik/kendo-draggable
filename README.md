@@ -11,7 +11,7 @@ Drag sequence means:
 
 ## Installation
 
-The library published as [scoped NPM package](https://docs.npmjs.com/misc/scope) in the [NPMJS Telerik account](https://www.npmjs.com/~telerik).
+The library is published as [scoped NPM package](https://docs.npmjs.com/misc/scope) in the [NPMJS Telerik account](https://www.npmjs.com/~telerik).
 
 ```bash
 npm install --save '@telerik/kendo-draggable';
@@ -39,26 +39,29 @@ const draggable = new Draggable(element, {
 });
 ```
 
-Since the draggable object persists a reference to the element, it should be destroyed if the element is removed.
+Since the draggable object persists a reference to the element, it should be destroyed when/if the corresponding element is removed from the document.
 
 ```javascript
 draggable.destroy();
 ```
 
-Features:
+## Features
 
-- Support mouse events
-- Support touch events
+- mouse events support
+- touch events support
 - Handle multiple touches. Rather, don't get confused by them.
-- Pointer events support (or, no, not yet?)
+
+## What's next
+- Pointer events support, necessary for the Windows Phone platform.
 
 ### Dragging on iOS/Android
 
-Handling the drag sequence on a mobile devices may require disabling of the touch based scrolling.
-The draggable will not do that - the recommended means to handle it is via [`touch-action`](https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action). Most likely, you will need `touch-action:pan-y` or `touch-action:pan-x`.
-However, the above won't work for iOS, as limited support for the touch action is available in iOS 9.3, which just got released.
+Handling the drag sequence on mobile devices may require disabling of the touch based scrolling.
+The draggable will not do that out of the box. The recommended way to handle this is by setting a [`touch-action`](https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action) CSS property.
+Depending on the type of drags handled, you may need `touch-action: none`, `touch-action: pan-y` or `touch-action: pan-x`.
 
-The simplest means to disable the scrolling is by preventing the `touchstart` event:
+**Notice**: `touch-action` does not work for iOS (yet). Limited support should be available in iOS 9.3, which just got released. However, `pan-x` and `pan-y` don't work.
+The simplest means to disable the scrolling in iOS is by preventing the `touchstart` event:
 
 ```html
     <div ontouchstart="return false">
@@ -70,7 +73,7 @@ The simplest means to disable the scrolling is by preventing the `touchstart` ev
 
 Dragging elements with text in them will activate the browser text selection, which, in most cases, is not desirable.
 
-To avoid this, use [`user-select: none`](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select).
+To avoid this, use [`user-select: none`](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select) CSS property with its respective browser prefixes.
 
 ### Browser Support
 

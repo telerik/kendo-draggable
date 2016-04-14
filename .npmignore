@@ -7,3 +7,5 @@ gulpfile.js
 .npmignore
 .eslintrc.json
 .travis.yml
+e2e
+*.tgz

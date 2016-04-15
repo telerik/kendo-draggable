@@ -40,6 +40,10 @@ export default class Draggable {
     }
 
     bindTo(element) {
+        if (element === this._element) {
+            return;
+        }
+
         if (this._element) {
             this._unbindFromCurrent();
         }

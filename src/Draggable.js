@@ -31,18 +31,32 @@ const noop = function() { };
 const IGNORE_MOUSE_TIMEOUT = 2000;
 
 export default class Draggable {
-    constructor(element, { press = noop, drag = noop, release = noop }) {
+    constructor({ press = noop, drag = noop, release = noop }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
 
-        this._element = element;
         this._ignoreMouse = false;
+    }
+
+    bindTo(element) {
+        if (this._element) {
+            this._unbindFromCurrent();
+        }
+
+        this._element = element;
 
         bind(element, "mousedown", this._mousedown);
         bind(element, "touchstart", this._touchstart);
         bind(element, "touchmove", this._touchmove);
         bind(element, "touchend", this._touchend);
+    }
+
+    _unbindFromCurrent() {
+        unbind(this._element, "mousedown", this._mousedown);
+        unbind(this._element, "touchstart", this._touchstart);
+        unbind(this._element, "touchmove", this._touchmove);
+        unbind(this._element, "touchend", this._touchend);
     }
 
     _touchstart = (e) => {
@@ -58,7 +72,7 @@ export default class Draggable {
     };
 
     _touchend = (e) => {
-        // the last finger has been lifted, and the user is not performing a gesture.
+        // the last finger has been lifted, and the user is not doing gesture.
         // there might be a better way to handle this.
         if (e.touches.length === 0 && e.changedTouches.length === 1) {
             this._releaseHandler(e);
@@ -90,11 +104,7 @@ export default class Draggable {
     };
 
     destroy() {
-        unbind(this._element, "mousedown", this._mousedown);
-        unbind(this._element, "touchstart", this._touchstart);
-        unbind(this._element, "touchmove", this._touchmove);
-        unbind(this._element, "touchend", this._touchend);
-
+        this._unbindFromCurrent();
         this._element = null;
     }
 }

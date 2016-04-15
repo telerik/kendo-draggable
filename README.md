@@ -19,14 +19,12 @@ npm install --save '@telerik/kendo-draggable';
 
 ## Basic usage
 
-The draggable class constructor accepts an element and an object with three optional event handler callbacks - `press`, `drag`, and `release`.
+The draggable class constructor accepts an object with three optional event handler callbacks - `press`, `drag`, and `release`.
 
 ```javascript
 import Draggable from '@telerik/kendo-draggable';
 
-const element = document.getElementById("my-element");
-
-const draggable = new Draggable(element, {
+const draggable = new Draggable({
     press: function(e) {
         console.log("pressed", e.pageX, e.pageY);
     },
@@ -37,9 +35,17 @@ const draggable = new Draggable(element, {
         console.log("release", e.pageX, e.pageY);
     }
 });
+
+draggable.bindTo(document.getElementById("my-element"));
 ```
 
-Since the draggable object persists a reference to the element, it should be destroyed when/if the corresponding element is removed from the document.
+The draggable may be re-bound to another element - the event handlers will be automatically unbound from the previous one.
+
+```javascript
+draggable.bindTo(document.getElementById("another-element"));
+```
+
+Since the draggable object persists a reference to the currently bound element, it should be destroyed when/if the corresponding element is removed from the document.
 
 ```javascript
 draggable.destroy();

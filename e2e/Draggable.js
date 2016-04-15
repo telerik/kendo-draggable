@@ -20,9 +20,11 @@ describe('Draggable', () => {
         beforeEach(() => {
             handler = jasmine.createSpy("onPress");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 press: handler
             });
+
+            draggable.bindTo(el);
         });
 
         it('executes press with coordinates on mousedown', () => {
@@ -55,9 +57,11 @@ describe('Draggable', () => {
         beforeEach(() => {
             handler = jasmine.createSpy("onDrag");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 drag: handler
             });
+
+            draggable.bindTo(el);
 
             mousedown(el, 100, 200);
             mousemove(el, 101, 201);
@@ -79,9 +83,11 @@ describe('Draggable', () => {
         beforeEach(() => {
             handler = jasmine.createSpy("onDrag");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 drag: handler
             });
+
+            draggable.bindTo(el);
 
             touchstart(el, 100, 200);
             touchmove(el, 101, 201);
@@ -110,9 +116,11 @@ describe('Draggable', () => {
         it("triggers release", () => {
             handler = jasmine.createSpy("onRelease");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 release: handler
             });
+
+            draggable.bindTo(el);
 
             mousedown(el, 99, 200);
             mousemove(el, 101, 201);
@@ -125,9 +133,11 @@ describe('Draggable', () => {
         beforeEach(() => {
             handler = jasmine.createSpy("onRelease");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 release: handler
             });
+
+            draggable.bindTo(el);
 
             touchstart(el, 100, 200);
             touchmove(el, 101, 201);
@@ -152,10 +162,12 @@ describe('Draggable', () => {
         it("ignores mouse after touch", () => {
             handler = jasmine.createSpy("onPress");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 press: handler,
                 release: handler
             });
+
+            draggable.bindTo(el);
 
             // mouse events are triggered
             touchstart(el, 100, 200);
@@ -171,10 +183,12 @@ describe('Draggable', () => {
             clock.install();
             handler = jasmine.createSpy("onPress");
 
-            draggable = new Draggable(el, {
+            draggable = new Draggable({
                 press: handler,
                 release: handler
             });
+
+            draggable.bindTo(el);
 
             // mouse events are triggered
             touchstart(el, 100, 200);

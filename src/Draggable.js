@@ -90,11 +90,15 @@ export default class Draggable {
     };
 
     _mousedown = (e) => {
-        if (!this._ignoreMouse) {
-            bind(document, "mousemove", this._mousemove);
-            bind(document, "mouseup", this._mouseup);
-            this._pressHandler(e);
+        const { which } = e;
+
+        if ((which && which > 1) || this._ignoreMouse) {
+            return;
         }
+
+        bind(document, "mousemove", this._mousemove);
+        bind(document, "mouseup", this._mouseup);
+        this._pressHandler(e);
     };
 
     _mousemove = (e) => {

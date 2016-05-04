@@ -1,12 +1,13 @@
 /* eslint max-params: [2, 5] */
 
-const aMouseEvent = (type, x, y) =>
+const aMouseEvent = (type, x, y, button) =>
         new MouseEvent(type, {
             bubbles: true,
             cancelable: true,
             view: window,
             clientX: x,
-            clientY: y
+            clientY: y,
+            button: button
         });
 
 const aTouch = (el, x, y, id) =>
@@ -23,8 +24,8 @@ const aTouchEvent = (type, touches) =>
         changedTouches: touches
     });
 
-export function mousedown(element, x, y) {
-    element.dispatchEvent(aMouseEvent("mousedown", x, y));
+export function mousedown(element, x, y, button) {
+    element.dispatchEvent(aMouseEvent("mousedown", x, y, button));
 }
 
 export function mousemove(element, x, y) {

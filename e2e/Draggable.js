@@ -51,6 +51,11 @@ describe('Draggable', () => {
 
             expect(handler).toHaveBeenCalledTimes(1);
         });
+
+        it('ignores right click', () => {
+            mousedown(el, 100, 200, 2);
+            expect(handler.calls.count()).toEqual(0);
+        });
     });
 
     describe("Mouse Drag", () => {

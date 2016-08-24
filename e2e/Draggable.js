@@ -36,6 +36,16 @@ describe('Draggable', () => {
             expect(args.pageY).toEqual(200);
         });
 
+        it('executes press with key modifiers on mousedown', () => {
+            mousedown(el, 100, 200);
+
+            const args = handler.calls.mostRecent().args[0];
+
+            expect(args.shiftKey).toBe(false);
+            expect(args.ctrlKey).toBe(false);
+            expect(args.altKey).toBe(false);
+        });
+
         it("executes press with coordinates on touchstart", () => {
             touchstart(el, 100, 200);
 

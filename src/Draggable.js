@@ -20,7 +20,10 @@ function normalizeEvent(e) {
     return {
         pageX: e.pageX,
         pageY: e.pageY,
-        type: e.type
+        type: e.type,
+        ctrlKey: e.ctrlKey,
+        shiftKey: e.shiftKey,
+        altKey: e.altKey
     };
 }
 

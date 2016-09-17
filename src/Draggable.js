@@ -13,7 +13,8 @@ function normalizeEvent(e) {
         return {
             pageX: e.changedTouches[0].pageX,
             pageY: e.changedTouches[0].pageY,
-            type: e.type
+            type: e.type,
+            originalEvent: e
         };
     }
 
@@ -23,7 +24,8 @@ function normalizeEvent(e) {
         type: e.type,
         ctrlKey: e.ctrlKey,
         shiftKey: e.shiftKey,
-        altKey: e.altKey
+        altKey: e.altKey,
+        originalEvent: e
     };
 }
 

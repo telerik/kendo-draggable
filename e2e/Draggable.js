@@ -46,6 +46,14 @@ describe('Draggable', () => {
             expect(args.altKey).toBe(false);
         });
 
+        it('executes press with originalEvent on mousedown', () => {
+            mousedown(el, 100, 200);
+
+            const args = handler.calls.mostRecent().args[0];
+
+            expect(args.originalEvent instanceof MouseEvent).not.toBeFalsy();
+        });
+
         it("executes press with coordinates on touchstart", () => {
             touchstart(el, 100, 200);
 
@@ -53,6 +61,14 @@ describe('Draggable', () => {
 
             expect(args.pageX).toEqual(100);
             expect(args.pageY).toEqual(200);
+        });
+
+        it("executes press with originalEvent on touchstart", () => {
+            touchstart(el, 100, 200);
+
+            const args = handler.calls.mostRecent().args[0];
+
+            expect(args.originalEvent instanceof TouchEvent).not.toBeFalsy();
         });
 
         it("ignores multi touches", () => {

@@ -1,10 +1,10 @@
 const proxy = (a, b) => (e) => b(a(e));
 
 const bind = (el, event, callback) =>
-    el.addEventListener(event, callback);
+    el.addEventListener && el.addEventListener(event, callback);
 
 const unbind = (el, event, callback) =>
-    el.removeEventListener(event, callback);
+    el.removeEventListener && el.removeEventListener(event, callback);
 
 const touchRegExp = /touch/;
 

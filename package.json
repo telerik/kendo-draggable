@@ -6,10 +6,12 @@
     "type": "git",
     "url": "https://github.com/telerik/kendo-draggable.git"
   },
-  "main": "dist/npm/js/Draggable.js",
-  "typings": "typings/Draggable.d.ts",
+  "main": "dist/npm/main.js",
+  "module": "dist/es/main.js",
+  "jsnext:main": "dist/es/main.js",
+  "typings": "dist/es/main",
   "scripts": {
-    "build-package": "gulp build-npm-package",
+    "build-package": "gulp build-rollup-package",
     "test": "gulp e2e",
     "lint": "gulp lint",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
@@ -20,7 +22,7 @@
   "dependencies": {},
   "devDependencies": {
     "@telerik/eslint-config": "^1.0.0",
-    "@telerik/kendo-package-tasks": "^1.2.0",
+    "@telerik/kendo-package-tasks": "^1.6.0",
     "cz-conventional-changelog": "^1.1.5",
     "ghooks": "^1.0.3",
     "gulp": "3.9.0",

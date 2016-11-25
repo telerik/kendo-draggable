@@ -42,6 +42,54 @@ export default class Draggable {
         this._releaseHandler = proxy(normalizeEvent, release);
 
         this._ignoreMouse = false;
+
+        this._touchstart = (e) => {
+            if (e.touches.length === 1) {
+                this._pressHandler(e);
+            }
+        };
+
+        this._touchmove = (e) => {
+            if (e.touches.length === 1) {
+                this._dragHandler(e);
+            }
+        };
+
+        this._touchend = (e) => {
+            // the last finger has been lifted, and the user is not doing gesture.
+            // there might be a better way to handle this.
+            if (e.touches.length === 0 && e.changedTouches.length === 1) {
+                this._releaseHandler(e);
+                this._ignoreMouse = true;
+                setTimeout(this._restoreMouse, IGNORE_MOUSE_TIMEOUT);
+            }
+        };
+
+        this._restoreMouse = () => {
+            this._ignoreMouse = false;
+        };
+
+        this._mousedown = (e) => {
+            const { which } = e;
+
+            if ((which && which > 1) || this._ignoreMouse) {
+                return;
+            }
+
+            bind(document, "mousemove", this._mousemove);
+            bind(document, "mouseup", this._mouseup);
+            this._pressHandler(e);
+        };
+
+        this._mousemove = (e) => {
+            this._dragHandler(e);
+        };
+
+        this._mouseup = (e) => {
+            unbind(document, "mousemove", this._mousemove);
+            unbind(document, "mouseup", this._mouseup);
+            this._releaseHandler(e);
+        };
     }
 
     bindTo(element) {
@@ -67,54 +115,6 @@ export default class Draggable {
         unbind(this._element, "touchmove", this._touchmove);
         unbind(this._element, "touchend", this._touchend);
     }
-
-    _touchstart = (e) => {
-        if (e.touches.length === 1) {
-            this._pressHandler(e);
-        }
-    };
-
-    _touchmove = (e) => {
-        if (e.touches.length === 1) {
-            this._dragHandler(e);
-        }
-    };
-
-    _touchend = (e) => {
-        // the last finger has been lifted, and the user is not doing gesture.
-        // there might be a better way to handle this.
-        if (e.touches.length === 0 && e.changedTouches.length === 1) {
-            this._releaseHandler(e);
-            this._ignoreMouse = true;
-            setTimeout(this._restoreMouse, IGNORE_MOUSE_TIMEOUT);
-        }
-    };
-
-    _restoreMouse = () => {
-        this._ignoreMouse = false;
-    };
-
-    _mousedown = (e) => {
-        const { which } = e;
-
-        if ((which && which > 1) || this._ignoreMouse) {
-            return;
-        }
-
-        bind(document, "mousemove", this._mousemove);
-        bind(document, "mouseup", this._mouseup);
-        this._pressHandler(e);
-    };
-
-    _mousemove = (e) => {
-        this._dragHandler(e);
-    };
-
-    _mouseup = (e) => {
-        unbind(document, "mousemove", this._mousemove);
-        unbind(document, "mouseup", this._mouseup);
-        this._releaseHandler(e);
-    };
 
     destroy() {
         this._unbindFromCurrent();

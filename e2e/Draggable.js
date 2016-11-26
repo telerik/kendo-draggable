@@ -1,4 +1,4 @@
-import Draggable from '../src/draggable';
+import Draggable from '../src/main';
 import { mousedown, mousemove, mouseup, touchstart, touchmove, touchend, gesturestart, gesturemove } from './interaction';
 
 describe('Draggable', () => {

@@ -2,24 +2,38 @@
 
 # Kendo UI Draggable
 
-A cross-platform abstraction for drag sequences. Handles mouse drags and touch sequences on mobile devices.
+A repository for the cross-platform abstraction for drag sequences.
 
-Drag sequence means:
+* [Overview](#overview)
+* [Installation](#installation)
+* [Basic Usage](#basic-usage)
+* [Features](#features)
+* [What's Next](#whats-next)
+* [Dragging on iOS/Android](#dragging-on-iosandroid)
+* [Preventing Selection](#preventing-selection)
+* [Browser Support](#browser-support)
+* [Contribution](#contribution)
 
-- mouse press, drag, release for desktop devices
-- touch press, drag, release for mobile devices
+## Overview
+
+The Kendo UI Draggable component handles mouse drags and touch sequences on mobile devices.
+
+A drag sequence means:
+
+- Mouse press, drag, release for desktop devices.
+- Touch press, drag, release for mobile devices.
 
 ## Installation
 
-The library is published as [scoped NPM package](https://docs.npmjs.com/misc/scope) in the [NPMJS Telerik account](https://www.npmjs.com/~telerik).
+The library is published as a [scoped NPM package](https://docs.npmjs.com/misc/scope) in the [NPMJS Telerik account](https://www.npmjs.com/~telerik).
 
 ```bash
 npm install --save '@telerik/kendo-draggable';
 ```
 
-## Basic usage
+## Basic Usage
 
-The draggable class constructor accepts an object with three optional event handler callbacks - `press`, `drag`, and `release`.
+The `draggable` class constructor accepts an object with three optional event handler callbacks&mdash;`press`, `drag`, and `release`.
 
 ```javascript
 import Draggable from '@telerik/kendo-draggable';
@@ -39,13 +53,13 @@ const draggable = new Draggable({
 draggable.bindTo(document.getElementById("my-element"));
 ```
 
-The draggable may be re-bound to another element - the event handlers will be automatically unbound from the previous one.
+The Draggable may be re-bound to another element&mdash;the event handlers will be automatically unbound from the previous one.
 
 ```javascript
 draggable.bindTo(document.getElementById("another-element"));
 ```
 
-Since the draggable object persists a reference to the currently bound element, it should be destroyed when/if the corresponding element is removed from the document.
+Since the `draggable` object persists a reference to the currently bound element, it should be destroyed when/if the corresponding element is removed from the document.
 
 ```javascript
 draggable.destroy();
@@ -53,21 +67,21 @@ draggable.destroy();
 
 ## Features
 
-- mouse events support
-- touch events support
-- Handle multiple touches. Rather, don't get confused by them.
+The Kendo UI Draggable supports:
 
-## What's next
-- Pointer events support, necessary for the Windows Phone platform.
+- Mouse events
+- Touch events
+- Handling of multiple touches. Rather, not getting confused by them.
 
-### Dragging on iOS/Android
+## What's Next
 
-Handling the drag sequence on mobile devices may require disabling of the touch based scrolling.
-The draggable will not do that out of the box. The recommended way to handle this is by setting a [`touch-action`](https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action) CSS property.
-Depending on the type of drags handled, you may need `touch-action: none`, `touch-action: pan-y` or `touch-action: pan-x`.
+- Support for Pointer events support, necessary for the Windows Phone platform.
 
-**Notice**: `touch-action` does not work for iOS (yet). Limited support should be available in iOS 9.3, which just got released. However, `pan-x` and `pan-y` don't work.
-The simplest means to disable the scrolling in iOS is by preventing the `touchstart` event:
+## Dragging on iOS/Android
+
+Handling the drag sequence on mobile devices may require the disabling of the touch-based scrolling. The Draggable will not do that out of the box. The recommended way to handle this issue is by setting a [`touch-action`](https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action) CSS property. Depending on the type of drags that are handled, you may need `touch-action: none`, `touch-action: pan-y`, or `touch-action: pan-x`.
+
+> The `touch-action` setting does not work for iOS yet. While the iOS 9.3 version, which has been released recently, provides limited support, `pan-x` and `pan-y` do not work. To disable the touch-based scrolling in iOS, prevent the `touchstart` event:
 
 ```html
     <div ontouchstart="return false">
@@ -75,13 +89,11 @@ The simplest means to disable the scrolling in iOS is by preventing the `touchst
     </div>
 ```
 
-### Preventing Selection
+## Preventing Selection
 
-Dragging elements with text in them will activate the browser text selection, which, in most cases, is not desirable.
+The dragging of elements that contain text activates the browser text selection, which, in most cases, is not desirable. To avoid this behavior, use the [`user-select: none`](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select) CSS property with its respective browser prefixes.
 
-To avoid this, use [`user-select: none`](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select) CSS property with its respective browser prefixes.
-
-### Browser Support
+## Browser Support
 
 - Google Chrome
 - Firefox
@@ -89,3 +101,12 @@ To avoid this, use [`user-select: none`](https://developer.mozilla.org/en-US/doc
 - Safari (iOS)
 - Chrome (Android)
 - IE/Edge
+
+## Contribution
+
+We accept contributions from the public.
+
+Before you pose your suggestions, please make sure that you:
+
+1. Read and sign the [Kendo UI for Angular Contribution License Agreement (CLA)](goo.gl/forms/dXc1RaE8le6rVZ0h1). The CLA confirms that you acknowledge the legal aspects of your contributions.
+2. Submit a Pull Request.

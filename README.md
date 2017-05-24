@@ -20,7 +20,7 @@ The Kendo UI Draggable component handles mouse drags and touch sequences on mobi
 
 A drag sequence means:
 
-- Mouse press, drag, release for desktop devices.
+- Mouse click, drag, release for desktop devices.
 - Touch press, drag, release for mobile devices.
 
 ## Installation

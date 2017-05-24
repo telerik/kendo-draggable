@@ -59,7 +59,7 @@ The Draggable may be re-bound to another element&mdash;the event handlers will b
 draggable.bindTo(document.getElementById("another-element"));
 ```
 
-Since the `draggable` object persists a reference to the currently bound element, it should be destroyed when/if the corresponding element is removed from the document.
+The `draggable` object persists a reference to the currently bound element. That is why it should be destroyed when or if the corresponding element is removed from the document.
 
 ```javascript
 draggable.destroy();
@@ -75,7 +75,7 @@ The Kendo UI Draggable supports:
 
 ## What's Next
 
-- Support for Pointer events support, necessary for the Windows Phone platform.
+Support for Pointer events support, necessary for the Windows Phone platform.
 
 ## Dragging on iOS/Android
 

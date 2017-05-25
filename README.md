@@ -12,7 +12,6 @@ A repository for the cross-platform abstraction for drag sequences.
 * [Dragging on iOS/Android](#dragging-on-iosandroid)
 * [Preventing Selection](#preventing-selection)
 * [Browser Support](#browser-support)
-* [Contribution](#contribution)
 
 ## Overview
 
@@ -101,12 +100,3 @@ The dragging of elements that contain text activates the browser text selection,
 - Safari (iOS)
 - Chrome (Android)
 - IE/Edge
-
-## Contribution
-
-We accept contributions from the public.
-
-Before you pose your suggestions, please make sure that you:
-
-1. Read and sign the [Kendo UI for Angular Contribution License Agreement (CLA)](goo.gl/forms/dXc1RaE8le6rVZ0h1). The CLA confirms that you acknowledge the legal aspects of your contributions.
-2. Submit a Pull Request.

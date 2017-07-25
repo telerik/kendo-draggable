@@ -2,10 +2,6 @@
   "name": "@telerik/kendo-draggable",
   "description": "A cross-browser/event abstraction that handles mouse and touch drag sequences",
   "version": "1.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/telerik/kendo-draggable.git"
-  },
   "main": "dist/npm/main.js",
   "module": "dist/es/main.js",
   "jsnext:main": "dist/es/main.js",
@@ -30,7 +26,7 @@
     "validate-commit-msg": "^1.1.1",
     "semantic-release": "^6.3.6"
   },
-  "author": "Telerik",
+  "author": "Progress",
   "license": "Apache-2.0",
   "config": {
     "commitizen": {
@@ -56,6 +52,13 @@
       "warnOnFail": false,
       "maxSubjectLength": 100
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telerik/kendo-draggable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/telerik/kendo-draggable/issues"
   },
   "release": {
     "debug": false,

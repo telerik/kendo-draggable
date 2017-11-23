@@ -1,7 +1,19 @@
 const proxy = (a, b) => (e) => b(a(e));
 
+let bindOptions: any = false;
+
+try {
+    const options = Object.defineProperty({}, 'passive', {
+        get: function() {
+            bindOptions = { passive: false };
+        }
+    });
+
+    window.addEventListener('test', null, options);
+} catch(_) {}
+
 const bind = (el, event, callback) =>
-    el.addEventListener && el.addEventListener(event, callback);
+    el.addEventListener && el.addEventListener(event, callback, bindOptions);
 
 const unbind = (el, event, callback) =>
     el.removeEventListener && el.removeEventListener(event, callback);

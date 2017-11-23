@@ -1,12 +1,18 @@
 const proxy = (a, b) => (e) => b(a(e));
 
 const bind = (el, event, callback) =>
-    el.addEventListener && el.addEventListener(event, callback);
+    el.addEventListener(event, callback);
 
 const unbind = (el, event, callback) =>
-    el.removeEventListener && el.removeEventListener(event, callback);
+    el.removeEventListener(event, callback);
+
+const noop = () => { /* empty */ };
 
 const touchRegExp = /touch/;
+
+// 300ms is the usual mouse interval;
+// // However, an underpowered mobile device under a heavy load may queue mouse events for a longer period.
+const IGNORE_MOUSE_TIMEOUT = 2000;
 
 function normalizeEvent(e) {
     if (e.type.match(touchRegExp)) {
@@ -21,6 +27,8 @@ function normalizeEvent(e) {
     return {
         pageX: e.pageX,
         pageY: e.pageY,
+        offsetX: e.offsetX,
+        offsetY: e.offsetY,
         type: e.type,
         ctrlKey: e.ctrlKey,
         shiftKey: e.shiftKey,
@@ -29,18 +37,15 @@ function normalizeEvent(e) {
     };
 }
 
-const noop = function() { };
-
-// 300ms is the usual mouse interval;
-// However, an underpowered mobile device under a heavy load may queue mouse events for a longer period.
-const IGNORE_MOUSE_TIMEOUT = 2000;
-
 export class Draggable {
+    static supportPointerEvent() {
+        return window.PointerEvent;
+    }
+
     constructor({ press = noop, drag = noop, release = noop }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
-
         this._ignoreMouse = false;
 
         this._touchstart = (e) => {
@@ -90,6 +95,27 @@ export class Draggable {
             unbind(document, "mouseup", this._mouseup);
             this._releaseHandler(e);
         };
+
+        this._pointerdown = (e) => {
+            if (e.isPrimary) {
+                e.target.style.touchAction = "none";
+                e.target.setPointerCapture(e.pointerId);
+                this._pressHandler(e);
+            }
+        };
+
+        this._pointermove = (e) => {
+            if (e.isPrimary) {
+                this._dragHandler(e);
+            }
+        };
+
+        this._pointerup = (e) => {
+            if (e.isPrimary) {
+                this._releaseHandler(e);
+                e.target.style.touchAction = "auto";
+            }
+        };
     }
 
     bindTo(element) {
@@ -103,17 +129,29 @@ export class Draggable {
 
         this._element = element;
 
-        bind(element, "mousedown", this._mousedown);
-        bind(element, "touchstart", this._touchstart);
-        bind(element, "touchmove", this._touchmove);
-        bind(element, "touchend", this._touchend);
+        if (Draggable.supportPointerEvent()) {
+            bind(element, "pointerdown", this._pointerdown);
+            bind(element, "pointermove", this._pointermove);
+            bind(element, "pointerup", this._pointerup);
+        } else {
+            bind(element, "mousedown", this._mousedown);
+            bind(element, "touchstart", this._touchstart);
+            bind(element, "touchmove", this._touchmove);
+            bind(element, "touchend", this._touchend);
+        }
     }
 
     _unbindFromCurrent() {
-        unbind(this._element, "mousedown", this._mousedown);
-        unbind(this._element, "touchstart", this._touchstart);
-        unbind(this._element, "touchmove", this._touchmove);
-        unbind(this._element, "touchend", this._touchend);
+        if (Draggable.supportPointerEvent()) {
+            unbind(this._element, "pointerdown", this._pointerdown);
+            unbind(this._element, "pointermove", this._pointermove);
+            unbind(this._element, "pointerup", this._pointerup);
+        } else {
+            unbind(this._element, "mousedown", this._mousedown);
+            unbind(this._element, "touchstart", this._touchstart);
+            unbind(this._element, "touchmove", this._touchmove);
+            unbind(this._element, "touchend", this._touchend);
+        }
     }
 
     destroy() {

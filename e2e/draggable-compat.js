@@ -1,19 +1,22 @@
 import Draggable from '../src/main';
-import { mousedown, mousemove, mouseup, touchstart, touchmove, touchend, gesturestart, gesturemove } from './interaction';
+import { mousedown, mousemove, mouseup, touchstart, touchmove, touchend, gesturestart, gesturemove } from './util';
 
-describe('Draggable', () => {
+describe('Draggable with Mouse and Touch events fallback', () => {
     let el;
     let draggable;
     let handler;
+    const supportFn = Draggable.supportPointerEvent;
 
     beforeEach(() => {
         el = document.createElement("div");
         document.body.appendChild(el);
+        Draggable.supportPointerEvent = () => false;
     });
 
     afterEach(() => {
         draggable && draggable.destroy();
         document.body.removeChild(el);
+        Draggable.supportPointerEvent = supportFn;
     });
 
     describe("Press", () => {

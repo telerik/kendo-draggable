@@ -47,6 +47,7 @@ export class Draggable {
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
         this._ignoreMouse = false;
+        this._touchAction;
 
         this._touchstart = (e) => {
             if (e.touches.length === 1) {
@@ -98,6 +99,7 @@ export class Draggable {
 
         this._pointerdown = (e) => {
             if (e.isPrimary) {
+                this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";
                 e.target.setPointerCapture(e.pointerId);
                 this._pressHandler(e);
@@ -112,8 +114,8 @@ export class Draggable {
 
         this._pointerup = (e) => {
             if (e.isPrimary) {
+                e.target.style.touchAction = this._touchAction;
                 this._releaseHandler(e);
-                e.target.style.touchAction = "auto";
             }
         };
     }

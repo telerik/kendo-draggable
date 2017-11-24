@@ -54,6 +54,11 @@ describe('Draggable with Pointer events', () => {
 
             expect(handler).toHaveBeenCalledTimes(1);
         });
+
+        it("sets touch-action to none on pointerdown", () => {
+            pointerdown(el, 100, 200);
+            expect(el.style.touchAction).toEqual('none');
+        });
     });
 
     describe("Drag", () => {
@@ -117,6 +122,19 @@ describe('Draggable with Pointer events', () => {
             pointerup(el, 101, 201);
 
             expect(handler).toHaveBeenCalledTimes(1);
+        });
+
+        it("restores auto touch-action on pointerup", () => {
+            pointerdown(el, 100, 200);
+            pointerup(el, 100, 200);
+            expect(el.style.touchAction).toEqual('');
+        });
+
+        it("restores previous touch-action on pointerup", () => {
+            el.style.touchAction = 'pan-y';
+            pointerdown(el, 100, 200);
+            pointerup(el, 100, 200);
+            expect(el.style.touchAction).toEqual('pan-y');
         });
     });
 });

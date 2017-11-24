@@ -62,6 +62,11 @@ describe('Draggable with Pointer events', () => {
     });
 
     describe("Drag", () => {
+        const drag = () => {
+            pointerdown(el, 100, 200);
+            pointermove(el, 101, 201);
+        };
+
         beforeEach(() => {
             handler = jasmine.createSpy("onDrag");
 
@@ -70,16 +75,15 @@ describe('Draggable with Pointer events', () => {
             });
 
             draggable.bindTo(el);
-
-            pointerdown(el, 100, 200);
-            pointermove(el, 101, 201);
         });
 
         it("triggers drag for down + move", () => {
+            drag();
             expect(handler).toHaveBeenCalled();
         });
 
         it("executes drag with offset on pointermove", () => {
+            drag();
             const args = handler.calls.mostRecent().args[0];
 
             expect(100 - Math.abs(args.offsetX)).toBeLessThan(10);
@@ -87,12 +91,18 @@ describe('Draggable with Pointer events', () => {
         });
 
         it("disposes drag handlers properly", () => {
+            drag();
             draggable.destroy();
             draggable = null;
 
             pointermove(el, 101, 201);
 
             expect(handler).toHaveBeenCalledTimes(1);
+        });
+
+        it("does not trigger drag before press", () => {
+            pointermove(el, 101, 201);
+            expect(handler).not.toHaveBeenCalled();
         });
     });
 

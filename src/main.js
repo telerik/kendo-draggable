@@ -99,6 +99,7 @@ export class Draggable {
 
         this._pointerdown = (e) => {
             if (e.isPrimary) {
+                bind(this._element, "pointermove", this._pointermove);
                 this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";
                 e.target.setPointerCapture(e.pointerId);
@@ -114,6 +115,7 @@ export class Draggable {
 
         this._pointerup = (e) => {
             if (e.isPrimary) {
+                unbind(this._element, "pointermove", this._pointermove);
                 e.target.style.touchAction = this._touchAction;
                 this._releaseHandler(e);
             }
@@ -133,7 +135,6 @@ export class Draggable {
 
         if (Draggable.supportPointerEvent()) {
             bind(element, "pointerdown", this._pointerdown);
-            bind(element, "pointermove", this._pointermove);
             bind(element, "pointerup", this._pointerup);
         } else {
             bind(element, "mousedown", this._mousedown);

@@ -117,6 +117,7 @@ export class Draggable {
             if (e.isPrimary) {
                 unbind(this._element, "pointermove", this._pointermove);
                 e.target.style.touchAction = this._touchAction;
+                e.target.releasePointerCapture(e.pointerId);
                 this._releaseHandler(e);
             }
         };

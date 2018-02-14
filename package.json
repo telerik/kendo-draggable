@@ -9,8 +9,6 @@
   "jsnext:main": "dist/es/main.js",
   "es2015": "dist/es2015/main.js",
   "typings": "dist/npm/main.d.ts",
-  "jsdelivr": "dist/cdn/js/kendo-draggable.js",
-  "unpkg": "dist/cdn/js/kendo-draggable.js",
   "scripts": {
     "build-package": "gulp build-rollup-package",
     "test": "gulp e2e",

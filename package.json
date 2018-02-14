@@ -1,11 +1,14 @@
 {
   "name": "@telerik/kendo-draggable",
   "description": "A cross-browser/event abstraction that handles mouse and touch drag sequences",
+  "author": "Progress",
+  "license": "Apache-2.0",
   "version": "1.0.0",
   "main": "dist/npm/main.js",
   "module": "dist/es/main.js",
   "jsnext:main": "dist/es/main.js",
-  "typings": "dist/es/main",
+  "es2015": "dist/es2015/main.js",
+  "typings": "dist/npm/main.d.ts",
   "jsdelivr": "dist/cdn/js/kendo-draggable.js",
   "unpkg": "dist/cdn/js/kendo-draggable.js",
   "scripts": {
@@ -20,7 +23,7 @@
   "dependencies": {},
   "devDependencies": {
     "@telerik/eslint-config": "^1.0.0",
-    "@telerik/kendo-package-tasks": "^1.6.1",
+    "@telerik/kendo-package-tasks": "^2.0.0",
     "@telerik/semantic-prerelease": "^1.0.0",
     "cz-conventional-changelog": "^1.1.5",
     "ghooks": "^1.0.3",
@@ -28,8 +31,6 @@
     "validate-commit-msg": "^1.1.1",
     "semantic-release": "^6.3.6"
   },
-  "author": "Progress",
-  "license": "Apache-2.0",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

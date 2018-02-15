@@ -164,6 +164,12 @@ export class Draggable {
     }
 }
 
+// Re-export as "default" field to address a bug
+// where the ES Module is imported by CommonJS code.
+//
+// See https://github.com/telerik/kendo-angular/issues/1314
+Draggable.default = Draggable;
+
 // Rollup won't output exports['default'] otherwise
 export default Draggable;
 

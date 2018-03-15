@@ -70,11 +70,8 @@ The Kendo UI Draggable supports:
 
 - Mouse events
 - Touch events
+- Pointer events
 - Handling of multiple touches. Rather, not getting confused by them.
-
-## What's Next
-
-Support for Pointer events support, necessary for the Windows Phone platform.
 
 ## Dragging on iOS/Android
 
@@ -91,6 +88,30 @@ Handling the drag sequence on mobile devices may require the disabling of the to
 ## Preventing Selection
 
 The dragging of elements that contain text activates the browser text selection, which, in most cases, is not desirable. To avoid this behavior, use the [`user-select: none`](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select) CSS property with its respective browser prefixes.
+
+## Mouse-Only mode
+
+To ignore all touch and pointer events, set `mouseOnly` to `true`. This is useful when you want to keep the default touch-drag behavior, e.g. horizontal scroll.
+
+```javascript
+import Draggable from '@telerik/kendo-draggable';
+
+const draggable = new Draggable({
+    mouseOnly: true,
+    press: function(e) {
+        console.log("pressed", e.pageX, e.pageY);
+    },
+    drag: function(e) {
+        console.log("drag", e.pageX, e.pageY);
+    },
+    release: function(e) {
+        console.log("release", e.pageX, e.pageY);
+    }
+});
+
+draggable.bindTo(document.getElementById("my-element"));
+```
+
 
 ## Browser Support
 

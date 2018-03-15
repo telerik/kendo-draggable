@@ -147,5 +147,24 @@ describe('Draggable with Pointer events', () => {
             expect(el.style.touchAction).toEqual('pan-y');
         });
     });
+
+    describe("with mouseOnly set to true", () => {
+        beforeEach(() => {
+            handler = jasmine.createSpy("onPress");
+
+            draggable = new Draggable({
+                press: handler,
+                mouseOnly: true
+            });
+
+            draggable.bindTo(el);
+        });
+
+        it("does not emit press on pointerdown", () => {
+            pointerdown(el, 100, 200);
+
+            expect(handler).not.toHaveBeenCalled();
+        });
+    });
 });
 

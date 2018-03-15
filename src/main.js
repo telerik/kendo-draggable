@@ -42,11 +42,12 @@ export class Draggable {
         return window.PointerEvent;
     }
 
-    constructor({ press = noop, drag = noop, release = noop }) {
+    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
         this._ignoreMouse = false;
+        this._mouseOnly = mouseOnly;
         this._touchAction;
 
         this._touchstart = (e) => {
@@ -133,12 +134,21 @@ export class Draggable {
         }
 
         this._element = element;
+        this._bindToCurrent();
+    }
 
-        if (Draggable.supportPointerEvent()) {
+    _bindToCurrent() {
+        const element = this._element;
+
+        if (this._usePointers()) {
             bind(element, "pointerdown", this._pointerdown);
             bind(element, "pointerup", this._pointerup);
-        } else {
-            bind(element, "mousedown", this._mousedown);
+            return;
+        }
+
+        bind(element, "mousedown", this._mousedown);
+
+        if (!this._mouseOnly) {
             bind(element, "touchstart", this._touchstart);
             bind(element, "touchmove", this._touchmove);
             bind(element, "touchend", this._touchend);
@@ -146,16 +156,26 @@ export class Draggable {
     }
 
     _unbindFromCurrent() {
-        if (Draggable.supportPointerEvent()) {
-            unbind(this._element, "pointerdown", this._pointerdown);
-            unbind(this._element, "pointermove", this._pointermove);
-            unbind(this._element, "pointerup", this._pointerup);
-        } else {
-            unbind(this._element, "mousedown", this._mousedown);
-            unbind(this._element, "touchstart", this._touchstart);
-            unbind(this._element, "touchmove", this._touchmove);
-            unbind(this._element, "touchend", this._touchend);
+        const element = this._element;
+
+        if (this._usePointers()) {
+            unbind(element, "pointerdown", this._pointerdown);
+            unbind(element, "pointermove", this._pointermove);
+            unbind(element, "pointerup", this._pointerup);
+            return;
         }
+
+        unbind(element, "mousedown", this._mousedown);
+
+        if (!this._mouseOnly) {
+            unbind(element, "touchstart", this._touchstart);
+            unbind(element, "touchmove", this._touchmove);
+            unbind(element, "touchend", this._touchend);
+        }
+    }
+
+    _usePointers() {
+        return !this._mouseOnly && Draggable.supportPointerEvent();
     }
 
     destroy() {

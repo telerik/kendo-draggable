@@ -235,4 +235,29 @@ describe('Draggable with Mouse and Touch events fallback', () => {
             clock.uninstall();
         });
     });
+
+    describe("with mouseOnly set to true", () => {
+        beforeEach(() => {
+            handler = jasmine.createSpy("onPress");
+
+            draggable = new Draggable({
+                press: handler,
+                mouseOnly: true
+            });
+
+            draggable.bindTo(el);
+        });
+
+        it("emits press on mousedown", () => {
+            mousedown(el, 100, 200);
+
+            expect(handler).toHaveBeenCalled();
+        });
+
+        it("does not emit press on touchstart", () => {
+            touchstart(el, 100, 200);
+
+            expect(handler).not.toHaveBeenCalled();
+        });
+    });
 });

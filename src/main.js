@@ -99,7 +99,7 @@ export class Draggable {
         };
 
         this._pointerdown = (e) => {
-            if (e.isPrimary) {
+            if (e.isPrimary && e.button === 0) {
                 bind(this._element, "pointermove", this._pointermove);
                 this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";

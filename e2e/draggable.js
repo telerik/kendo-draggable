@@ -40,6 +40,12 @@ describe('Draggable with Pointer events', () => {
             expect(args.pageY).toEqual(200);
         });
 
+        it("does not execute press if the left button is not clicked", () => {
+            pointerdown(el, 100, 200, true, 2);
+
+            expect(handler).not.toHaveBeenCalled();
+        });
+
         it("executes press with originalEvent on pointerdown", () => {
             pointerdown(el, 100, 200);
 

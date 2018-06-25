@@ -39,7 +39,7 @@ function normalizeEvent(e) {
 
 export class Draggable {
     static supportPointerEvent() {
-        return window.PointerEvent;
+        return (typeof window !== 'undefined') && window.PointerEvent;
     }
 
     constructor({ press = noop, drag = noop, release = noop, mouseOnly = false }) {

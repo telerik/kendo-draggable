@@ -121,23 +121,30 @@ describe('Draggable with Pointer events', () => {
             });
 
             draggable.bindTo(el);
-
-            pointerdown(el, 100, 200);
-            pointermove(el, 101, 201);
-            pointerup(el, 101, 201);
         });
 
         it("triggers release on pointerup", () => {
-            expect(handler).toHaveBeenCalled();
+            pointerdown(el, 100, 200);
+            pointermove(el, 101, 201);
+            pointerup(el, 101, 201);
+
+            expect(handler).toHaveBeenCalledTimes(1);
+        });
+
+        it("does not trigger release if the element was not pressed", () => {
+            pointerup(el, 100, 200);
+            expect(handler).not.toHaveBeenCalled();
         });
 
         it("disposes drag handlers properly", () => {
             draggable.destroy();
             draggable = null;
 
+            pointerdown(el, 100, 200);
+            pointermove(el, 101, 201);
             pointerup(el, 101, 201);
 
-            expect(handler).toHaveBeenCalledTimes(1);
+            expect(handler).not.toHaveBeenCalled();
         });
 
         it("restores auto touch-action on pointerup", () => {
@@ -152,6 +159,7 @@ describe('Draggable with Pointer events', () => {
             pointerup(el, 100, 200);
             expect(el.style.touchAction).toEqual('pan-y');
         });
+
     });
 
     describe("with mouseOnly set to true", () => {

@@ -101,9 +101,12 @@ export class Draggable {
         this._pointerdown = (e) => {
             if (e.isPrimary && e.button === 0) {
                 bind(this._element, "pointermove", this._pointermove);
+                bind(this._element, "pointerup", this._pointerup);
+
                 this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";
                 e.target.setPointerCapture(e.pointerId);
+
                 this._pressHandler(e);
             }
         };
@@ -117,8 +120,11 @@ export class Draggable {
         this._pointerup = (e) => {
             if (e.isPrimary) {
                 unbind(this._element, "pointermove", this._pointermove);
+                unbind(this._element, "pointerup", this._pointerup);
+
                 e.target.style.touchAction = this._touchAction;
                 e.target.releasePointerCapture(e.pointerId);
+
                 this._releaseHandler(e);
             }
         };
@@ -142,7 +148,6 @@ export class Draggable {
 
         if (this._usePointers()) {
             bind(element, "pointerdown", this._pointerdown);
-            bind(element, "pointerup", this._pointerup);
             return;
         }
 

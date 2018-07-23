@@ -19,6 +19,8 @@ function normalizeEvent(e) {
         return {
             pageX: e.changedTouches[0].pageX,
             pageY: e.changedTouches[0].pageY,
+            clientX: e.changedTouches[0].pageX,
+            clientY: e.changedTouches[0].clientY,
             type: e.type,
             originalEvent: e
         };
@@ -27,6 +29,8 @@ function normalizeEvent(e) {
     return {
         pageX: e.pageX,
         pageY: e.pageY,
+        clientX: e.clientX,
+        clientY: e.clientY,
         offsetX: e.offsetX,
         offsetY: e.offsetY,
         type: e.type,

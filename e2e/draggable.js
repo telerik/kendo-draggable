@@ -110,6 +110,14 @@ describe('Draggable with Pointer events', () => {
             pointermove(el, 101, 201);
             expect(handler).not.toHaveBeenCalled();
         });
+
+        it('normalizes clientX and clientY', () => {
+            drag();
+
+            const args = handler.calls.argsFor(0)[0];
+            expect(args.clientX).toBe(101);
+            expect(args.clientY).toBe(201);
+        });
     });
 
     describe("Release", () => {

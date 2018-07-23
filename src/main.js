@@ -19,7 +19,7 @@ function normalizeEvent(e) {
         return {
             pageX: e.changedTouches[0].pageX,
             pageY: e.changedTouches[0].pageY,
-            clientX: e.changedTouches[0].pageX,
+            clientX: e.changedTouches[0].clientX,
             clientY: e.changedTouches[0].clientY,
             type: e.type,
             originalEvent: e

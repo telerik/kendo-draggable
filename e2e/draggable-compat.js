@@ -111,6 +111,12 @@ describe('Draggable with Mouse and Touch events fallback', () => {
 
             expect(handler).toHaveBeenCalledTimes(1);
         });
+
+        it('normalizes clientX and clientY', () => {
+            const args = handler.calls.argsFor(0)[0];
+            expect(args.clientX).toBe(101);
+            expect(args.clientY).toBe(201);
+        });
     });
 
     describe("Touch drag", () => {
@@ -143,6 +149,12 @@ describe('Draggable with Mouse and Touch events fallback', () => {
         it("ignores gestures", () => {
             gesturemove(el, 101, 201, 102, 202);
             expect(handler).toHaveBeenCalledTimes(1);
+        });
+
+        it('normalizes clientX and clientY', () => {
+            const args = handler.calls.argsFor(0)[0];
+            expect(args.clientX).toBe(101);
+            expect(args.clientY).toBe(201);
         });
     });
 

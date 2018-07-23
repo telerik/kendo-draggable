@@ -15,7 +15,9 @@ const aTouch = (el, x, y, id) =>
         identifier: id,
         target: el,
         pageX: x,
-        pageY: y
+        pageY: y,
+        clientX: x,
+        clientY: y
     });
 
 const aTouchEvent = (type, touches) =>

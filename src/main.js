@@ -22,7 +22,8 @@ function normalizeEvent(e) {
             clientX: e.changedTouches[0].clientX,
             clientY: e.changedTouches[0].clientY,
             type: e.type,
-            originalEvent: e
+            originalEvent: e,
+            isTouch: true
         };
     }
 

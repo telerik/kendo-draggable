@@ -39,6 +39,14 @@ describe('Draggable with Mouse and Touch events fallback', () => {
             expect(args.pageY).toEqual(200);
         });
 
+        it("isTouch is false for mouse events", () => {
+            mousedown(el, 100, 200);
+
+            const args = handler.calls.mostRecent().args[0];
+
+            expect(args.isTouch).toBeFalsy();
+        });
+
         it('executes press with key modifiers on mousedown', () => {
             mousedown(el, 100, 200);
 
@@ -64,6 +72,14 @@ describe('Draggable with Mouse and Touch events fallback', () => {
 
             expect(args.pageX).toEqual(100);
             expect(args.pageY).toEqual(200);
+        });
+
+        it("isTouch is true for touch events", () => {
+            touchstart(el, 100, 200);
+
+            const args = handler.calls.mostRecent().args[0];
+
+            expect(args.isTouch).toBe(true);
         });
 
         it("executes press with originalEvent on touchstart", () => {

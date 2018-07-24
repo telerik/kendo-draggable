@@ -40,6 +40,14 @@ describe('Draggable with Pointer events', () => {
             expect(args.pageY).toEqual(200);
         });
 
+        it("isTouch is false for pointer events", () => {
+            pointerdown(el, 100, 200);
+
+            const args = handler.calls.mostRecent().args[0];
+
+            expect(args.isTouch).toBeFalsy();
+        });
+
         it("does not execute press if the left button is not clicked", () => {
             pointerdown(el, 100, 200, true, 2);
 

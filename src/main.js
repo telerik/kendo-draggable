@@ -8,6 +8,8 @@ const unbind = (el, event, callback) =>
 
 const noop = () => { /* empty */ };
 
+const preventDefault = e => e.preventDefault();
+
 const touchRegExp = /touch/;
 
 // 300ms is the usual mouse interval;
@@ -107,6 +109,7 @@ export class Draggable {
             if (e.isPrimary && e.button === 0) {
                 bind(this._element, "pointermove", this._pointermove);
                 bind(this._element, "pointerup", this._pointerup);
+                bind(this._element, "contextmenu", preventDefault);
 
                 this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";
@@ -126,6 +129,7 @@ export class Draggable {
             if (e.isPrimary) {
                 unbind(this._element, "pointermove", this._pointermove);
                 unbind(this._element, "pointerup", this._pointerup);
+                unbind(this._element, "contextmenu", preventDefault);
 
                 e.target.style.touchAction = this._touchAction;
                 e.target.releasePointerCapture(e.pointerId);

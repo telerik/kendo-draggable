@@ -1,5 +1,6 @@
 import Draggable from '../src/main';
 import { pointerdown, pointermove, pointerup } from './pointer-util';
+import { aMouseEvent } from './util';
 
 describe('Draggable with Pointer events', () => {
     let el;
@@ -194,6 +195,40 @@ describe('Draggable with Pointer events', () => {
             pointerdown(el, 100, 200);
 
             expect(handler).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("contextmenu", () => {
+        beforeEach(() => {
+            draggable = new Draggable({});
+
+            draggable.bindTo(el);
+        });
+
+        it('prevents contextmenu while dragging', () => {
+            pointerdown(el, 100, 200);
+
+            const e = aMouseEvent('contextmenu');
+            spyOn(e, 'preventDefault');
+
+            el.dispatchEvent(e);
+
+            expect(e.preventDefault).toHaveBeenCalledTimes(1);
+
+
+            pointerup(el, 100, 200);
+        });
+
+        it('does not prevent contextmenu after release', () => {
+            pointerdown(el, 100, 200);
+            pointerup(el, 100, 200);
+
+            const e = aMouseEvent('contextmenu');
+            spyOn(e, 'preventDefault');
+
+            el.dispatchEvent(e);
+
+            expect(e.preventDefault).not.toHaveBeenCalled();
         });
     });
 });

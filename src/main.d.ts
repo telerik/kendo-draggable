@@ -7,6 +7,6 @@ interface DraggableOptions {
 
 export default class Draggable {
     constructor(options?: DraggableOptions)
-    bindTo(element: Element)
+    bindTo(element: Element | Document)
     destroy()
 }

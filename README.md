@@ -112,6 +112,27 @@ const draggable = new Draggable({
 draggable.bindTo(document.getElementById("my-element"));
 ```
 
+## Pointer events
+
+For better performance `pointermove` and `pointerup` event listeners are added to the element on `pointerdown`. Then on `pointerup` event listeners for `pointermove` and `pointerup` are removed. This optimization can be skipped by setting the `optimizePointerEvents` to `false`. As a result, all pointer event listeners will be added to the target element as soon as the Draggable is initialized and removed when it is re-binded to another element or destroyed.
+```javascript
+import Draggable from '@telerik/kendo-draggable';
+
+const draggable = new Draggable({
+    optimizePointerEvents: false,
+    press: function(e) {
+        console.log("pressed", e.pageX, e.pageY);
+    },
+    drag: function(e) {
+        console.log("drag", e.pageX, e.pageY);
+    },
+    release: function(e) {
+        console.log("release", e.pageX, e.pageY);
+    }
+});
+
+draggable.bindTo(document.getElementById("my-element"));
+```
 
 ## Browser Support
 

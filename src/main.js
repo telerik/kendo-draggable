@@ -49,12 +49,13 @@ export class Draggable {
         return (typeof window !== 'undefined') && window.PointerEvent;
     }
 
-    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false }) {
+    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false, optimizePointerEvents = true }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
         this._ignoreMouse = false;
         this._mouseOnly = mouseOnly;
+        this._optimizePointerEvents = optimizePointerEvents;
         this._touchAction;
 
         this._touchstart = (e) => {
@@ -107,10 +108,11 @@ export class Draggable {
 
         this._pointerdown = (e) => {
             if (e.isPrimary && e.button === 0) {
-                bind(this._element, "pointermove", this._pointermove);
-                bind(this._element, "pointerup", this._pointerup);
-                bind(this._element, "contextmenu", preventDefault);
-
+                if (this._optimizePointerEvents) {
+                    bind(this._element, "pointermove", this._pointermove);
+                    bind(this._element, "pointerup", this._pointerup);
+                    bind(this._element, "contextmenu", preventDefault);
+                }
                 this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";
                 e.target.setPointerCapture(e.pointerId);
@@ -127,9 +129,11 @@ export class Draggable {
 
         this._pointerup = (e) => {
             if (e.isPrimary) {
-                unbind(this._element, "pointermove", this._pointermove);
-                unbind(this._element, "pointerup", this._pointerup);
-                unbind(this._element, "contextmenu", preventDefault);
+                if (this._optimizePointerEvents) {
+                    unbind(this._element, "pointermove", this._pointermove);
+                    unbind(this._element, "pointerup", this._pointerup);
+                    unbind(this._element, "contextmenu", preventDefault);
+                }
 
                 e.target.style.touchAction = this._touchAction;
                 e.target.releasePointerCapture(e.pointerId);
@@ -157,6 +161,11 @@ export class Draggable {
 
         if (this._usePointers()) {
             bind(element, "pointerdown", this._pointerdown);
+            if (!this._optimizePointerEvents) {
+                bind(this._element, "pointermove", this._pointermove);
+                bind(this._element, "pointerup", this._pointerup);
+                bind(this._element, "contextmenu", preventDefault);
+            }
             return;
         }
 

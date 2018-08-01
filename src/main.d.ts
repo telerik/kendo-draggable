@@ -2,7 +2,8 @@ interface DraggableOptions {
     press?: Function,
     drag?: Function,
     release?: Function,
-    mouseOnly?: boolean
+    mouseOnly?: boolean,
+    optimizePointerEvents?: boolean,
 }
 
 export default class Draggable {

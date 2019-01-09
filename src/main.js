@@ -4,7 +4,7 @@ const bind = (el, event, callback) =>
     el.addEventListener && el.addEventListener(event, callback);
 
 const unbind = (el, event, callback) =>
-    el.removeEventListener && el.removeEventListener(event, callback);
+    el && el.removeEventListener && el.removeEventListener(event, callback);
 
 const noop = () => { /* empty */ };
 

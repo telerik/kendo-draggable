@@ -1,0 +1,8 @@
+{
+  "tasks":[
+    "npm run lint",
+    "npm run test",
+    "CHROME_BIN=`which chrome` ENV_BROWSER=Chrome_headless gulp e2e",
+    "npm run build-package"
+  ]
+}

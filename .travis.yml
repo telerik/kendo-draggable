@@ -1,5 +1,4 @@
-sudo: true
-dist: trusty
+sudo: required
 language: node_js
 addons:
   apt:
@@ -13,9 +12,8 @@ cache:
 notifications:
   email: false
 node_js:
-  - '6'
+  - '10'
 before_install:
-  - npm i -g npm@^3.8.0
   - export CHROME_BIN=/usr/bin/google-chrome
 before_script:
   - npm prune

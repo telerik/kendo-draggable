@@ -11,7 +11,7 @@
   "typings": "dist/npm/main.d.ts",
   "scripts": {
     "build-package": "gulp build-rollup-package",
-    "test": "gulp e2e",
+    "test": "tsc && gulp e2e",
     "lint": "gulp lint",
     "semantic-release": "semantic-release pre && semantic-prerelease publish && semantic-release post"
   },
@@ -26,8 +26,9 @@
     "cz-conventional-changelog": "^1.1.5",
     "ghooks": "^1.0.3",
     "gulp": "3.9.0",
-    "validate-commit-msg": "^1.1.1",
-    "semantic-release": "^6.3.6"
+    "semantic-release": "^6.3.6",
+    "typescript": "^2.9.2",
+    "validate-commit-msg": "^1.1.1"
   },
   "config": {
     "commitizen": {

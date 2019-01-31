@@ -1,1 +1,1 @@
-require('@telerik/kendo-package-tasks')(require('gulp'), 'kendo-draggable');
+require('@progress/kendo-package-tasks')(require('gulp'), 'kendo-draggable');

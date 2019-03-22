@@ -107,13 +107,12 @@ export class Draggable {
 
         this._pointerdown = (e) => {
             if (e.isPrimary && e.button === 0) {
-                bind(this._element, "pointermove", this._pointermove);
-                bind(this._element, "pointerup", this._pointerup);
-                bind(this._element, "contextmenu", preventDefault);
+                bind(document, "pointermove", this._pointermove);
+                bind(document, "pointerup", this._pointerup);
+                bind(document, "contextmenu", preventDefault);
 
                 this._touchAction = e.target.style.touchAction;
                 e.target.style.touchAction = "none";
-                e.target.setPointerCapture(e.pointerId);
 
                 this._pressHandler(e);
             }
@@ -127,12 +126,11 @@ export class Draggable {
 
         this._pointerup = (e) => {
             if (e.isPrimary) {
-                unbind(this._element, "pointermove", this._pointermove);
-                unbind(this._element, "pointerup", this._pointerup);
-                unbind(this._element, "contextmenu", preventDefault);
+                unbind(document, "pointermove", this._pointermove);
+                unbind(document, "pointerup", this._pointerup);
+                unbind(document, "contextmenu", preventDefault);
 
                 e.target.style.touchAction = this._touchAction;
-                e.target.releasePointerCapture(e.pointerId);
 
                 this._releaseHandler(e);
             }
@@ -174,8 +172,8 @@ export class Draggable {
 
         if (this._usePointers()) {
             unbind(element, "pointerdown", this._pointerdown);
-            unbind(element, "pointermove", this._pointermove);
-            unbind(element, "pointerup", this._pointerup);
+            unbind(document, "pointermove", this._pointermove);
+            unbind(document, "pointerup", this._pointerup);
             return;
         }
 

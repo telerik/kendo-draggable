@@ -109,6 +109,7 @@ export class Draggable {
             if (e.isPrimary && e.button === 0) {
                 bind(document, "pointermove", this._pointermove);
                 bind(document, "pointerup", this._pointerup);
+                bind(document, "pointercancel", this._pointerup);
                 bind(document, "contextmenu", preventDefault);
 
                 this._touchAction = e.target.style.touchAction;
@@ -128,6 +129,7 @@ export class Draggable {
             if (e.isPrimary) {
                 unbind(document, "pointermove", this._pointermove);
                 unbind(document, "pointerup", this._pointerup);
+                unbind(document, "pointercancel", this._pointerup);
                 unbind(document, "contextmenu", preventDefault);
 
                 e.target.style.touchAction = this._touchAction;
@@ -174,6 +176,8 @@ export class Draggable {
             unbind(element, "pointerdown", this._pointerdown);
             unbind(document, "pointermove", this._pointermove);
             unbind(document, "pointerup", this._pointerup);
+            unbind(document, "contextmenu", preventDefault);
+            unbind(document, "pointercancel", this._pointerup);
             return;
         }
 

@@ -23,3 +23,7 @@ export function pointerup(element, x, y, primary, button) {
     element.dispatchEvent(pointerEvent("pointerup", x, y, primary));
 }
 
+export function pointercancel(element, x, y, primary) {
+    element.dispatchEvent(pointerEvent("pointercancel", x, y, primary));
+}
+

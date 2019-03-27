@@ -4,6 +4,7 @@ import { aMouseEvent } from './util';
 
 describe('Draggable with Pointer events', () => {
     let el;
+    let anotherEl;
     let draggable;
     let handler;
 
@@ -13,12 +14,15 @@ describe('Draggable with Pointer events', () => {
 
     beforeEach(() => {
         el = document.createElement("div");
+        anotherEl = document.createElement("div");
         document.body.appendChild(el);
+        document.body.appendChild(anotherEl);
     });
 
     afterEach(() => {
         draggable && draggable.destroy();
         document.body.removeChild(el);
+        document.body.removeChild(anotherEl);
     });
 
     describe("Press", () => {
@@ -91,6 +95,32 @@ describe('Draggable with Pointer events', () => {
 
             draggable.bindTo(el);
         });
+
+        it("triggers drag from outside element", () => {
+            pointerdown(el, 100, 200);
+            pointermove(anotherEl, 101, 201);
+
+            expect(handler).toHaveBeenCalled();
+        });
+
+        // it("triggers drag when children of element reorders and move outside of container", () => {
+               // can't be tested because browser is responsible for handling
+               // pointerCapture.
+        //     const child1 = document.createElement("div");
+        //     const child2 = document.createElement("div");
+
+        //     el.appendChild(child1);
+        //     el.appendChild(child2);
+
+        //     pointerdown(el, 100, 200);
+        //     pointermove(anotherEl, 101, 201);
+
+        //     el.insertBefore(child2, child1);
+
+        //     pointermove(anotherEl, 700, 202);
+
+        //     expect(handler).toHaveBeenCalledTimes(2);
+        // });
 
         it("triggers drag for down + move", () => {
             drag();

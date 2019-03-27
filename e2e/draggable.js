@@ -1,5 +1,5 @@
 import Draggable from '../src/main';
-import { pointerdown, pointermove, pointerup } from './pointer-util';
+import { pointerdown, pointermove, pointerup, pointercancel } from './pointer-util';
 import { aMouseEvent } from './util';
 
 describe('Draggable with Pointer events', () => {
@@ -146,6 +146,30 @@ describe('Draggable with Pointer events', () => {
             pointerup(el, 101, 201);
 
             expect(handler).toHaveBeenCalledTimes(1);
+        });
+
+        it("does not triggers release on pointerup if not primary", () => {
+            pointerdown(el, 100, 200);
+            pointermove(el, 101, 201);
+            pointerup(el, 101, 201, false);
+
+            expect(handler).not.toHaveBeenCalled();
+        });
+
+        it("triggers release on pointercancel", () => {
+            pointerdown(el, 100, 200);
+            pointercancel(el, 101, 201);
+            pointercancel(el, 101, 201);
+
+            expect(handler).toHaveBeenCalledTimes(1);
+        });
+
+        it("does not triggers release on pointercancel if not primary", () => {
+            pointerdown(el, 100, 200);
+            pointermove(el, 101, 201);
+            pointercancel(el, 101, 201, false);
+
+            expect(handler).not.toHaveBeenCalled();
         });
 
         it("does not trigger release if the element was not pressed", () => {

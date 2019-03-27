@@ -161,6 +161,14 @@ describe('Draggable with Pointer events', () => {
             pointermove(el, 101, 201);
             pointerup(el, 101, 201);
 
+            const contextmenu = new Event('contextmenu', {
+                bubbles: true
+            });
+            spyOn(contextmenu, 'preventDefault');
+
+            el.dispatchEvent(contextmenu);
+
+            expect(contextmenu.preventDefault).not.toHaveBeenCalled();
             expect(handler).not.toHaveBeenCalled();
         });
 

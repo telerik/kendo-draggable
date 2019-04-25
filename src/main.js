@@ -55,7 +55,6 @@ export class Draggable {
         this._releaseHandler = proxy(normalizeEvent, release);
         this._ignoreMouse = false;
         this._mouseOnly = mouseOnly;
-        this._touchAction;
 
         this._touchstart = (e) => {
             if (e.touches.length === 1) {
@@ -112,9 +111,6 @@ export class Draggable {
                 bind(document, "pointercancel", this._pointerup);
                 bind(document, "contextmenu", preventDefault);
 
-                this._touchAction = e.target.style.touchAction;
-                e.target.style.touchAction = "none";
-
                 this._pressHandler(e);
             }
         };
@@ -131,8 +127,6 @@ export class Draggable {
                 unbind(document, "pointerup", this._pointerup);
                 unbind(document, "pointercancel", this._pointerup);
                 unbind(document, "contextmenu", preventDefault);
-
-                e.target.style.touchAction = this._touchAction;
 
                 this._releaseHandler(e);
             }

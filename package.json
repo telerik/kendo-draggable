@@ -10,9 +10,14 @@
   "es2015": "dist/es2015/main.js",
   "typings": "dist/npm/main.d.ts",
   "scripts": {
-    "build-package": "gulp build-rollup-package",
-    "test": "tsc && gulp e2e",
-    "lint": "gulp lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --maxWorkers=2",
+    "start": "gulp start",
+    "e2e:ci": "ci-angular-e2e",
+    "lint": "gulp lint && gulp lint-docs",
+    "api-check": "gulp api-check",
+    "build-package": "gulp build-package",
     "semantic-release": "semantic-release pre && semantic-prerelease publish && semantic-release post"
   },
   "keywords": [

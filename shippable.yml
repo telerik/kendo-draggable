@@ -12,8 +12,8 @@ build:
   ci:
     - npm install --no-audit
     - npm run lint
-    - npm run test
     - npm run build-package
+    - CHROME_BIN=`which chrome` NO_SANDBOX=true ENV_BROWSER=Chrome_headless npm run test
   on_success:
     - npx ci-semantic-release
 

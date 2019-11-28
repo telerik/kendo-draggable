@@ -7,6 +7,7 @@ interface DraggableOptions {
 
 export default class Draggable {
     constructor(options?: DraggableOptions);
+    update(options?: DraggableOptions): void;
     bindTo(element: Element): void;
     destroy(): void;
 }

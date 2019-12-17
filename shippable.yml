@@ -24,6 +24,9 @@ resources:
       versionTemplate:
         sourceName:       telerik/kendo-draggable
         branch:           develop
+    - name: shippable-push-public-repos-draggable
+      type: integration
+      integration: shippable-push-public-repos
 jobs:
   - name: kendo-draggable-publish_develop_as_latest
     type: runSh
@@ -32,9 +35,11 @@ jobs:
         switch: off
       - IN: kendo-draggable_ciRepo
         switch: off
+      - IN: shippable-push-public-repos-draggable
+        switch: off
       - TASK:
           name: kendo-draggable-publish_develop
           script:
-            - ssh-add $KENDODRAGGABLEREPO_KEYPATH
-            - cd $KENDODRAGGABLEREPO_STATE && git checkout master && git pull --rebase
+            - ssh-add $SHIPPABLEPUSHPUBLICREPOSDRAGGABLE_PRIVATE_KEY_PATH
+            - cd $KENDODRAGGABLEREPO_STATE && git remote set-url --push origin git@github.com:telerik/kendo-draggable.git && git checkout master && git pull --rebase
             - npm install @telerik/semantic-prerelease@1 --no-save && npx release-master

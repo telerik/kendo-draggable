@@ -20,6 +20,7 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "@types/node": "^10.17.13",
     "@progress/kendo-package-tasks": "^3.0.19",
     "@telerik/eslint-config": "^1.0.0",
     "@telerik/semantic-prerelease": "^1.3.3",

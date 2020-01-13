@@ -188,6 +188,13 @@ export class Draggable {
         return !this._mouseOnly && Draggable.supportPointerEvent();
     }
 
+    update({ press = noop, drag = noop, release = noop, mouseOnly = false }) {
+        this._pressHandler = proxy(normalizeEvent, press);
+        this._dragHandler = proxy(normalizeEvent, drag);
+        this._releaseHandler = proxy(normalizeEvent, release);
+        this._mouseOnly = mouseOnly;
+    }
+
     destroy() {
         this._unbindFromCurrent();
         this._element = null;

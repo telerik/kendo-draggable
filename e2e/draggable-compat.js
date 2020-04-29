@@ -130,6 +130,7 @@ describe('Draggable with Mouse and Touch events fallback', () => {
 
         it('normalizes clientX and clientY', () => {
             const args = handler.calls.argsFor(0)[0];
+            
             expect(args.clientX).toBe(101);
             expect(args.clientY).toBe(201);
         });

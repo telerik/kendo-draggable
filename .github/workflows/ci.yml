@@ -31,5 +31,5 @@ jobs:
         run: npm run build-package
 
       - name: Run unit tests
-        run: npm run test
+        run: CHROME_BIN=`which chrome || which chromium-browser` ENV_BROWSER=Chrome_headless npm run test
 

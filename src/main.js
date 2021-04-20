@@ -49,6 +49,12 @@ export class Draggable {
         return (typeof window !== 'undefined') && window.PointerEvent;
     }
 
+    get document() {
+        return this._element
+        ? this._element.ownerDocument
+        : document;
+    }
+
     constructor({ press = noop, drag = noop, release = noop, mouseOnly = false }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
@@ -89,8 +95,8 @@ export class Draggable {
                 return;
             }
 
-            bind(document, "mousemove", this._mousemove);
-            bind(document, "mouseup", this._mouseup);
+            bind(this.document, "mousemove", this._mousemove);
+            bind(this.document, "mouseup", this._mouseup);
             this._pressHandler(e);
         };
 
@@ -99,17 +105,17 @@ export class Draggable {
         };
 
         this._mouseup = (e) => {
-            unbind(document, "mousemove", this._mousemove);
-            unbind(document, "mouseup", this._mouseup);
+            unbind(this.document, "mousemove", this._mousemove);
+            unbind(this.document, "mouseup", this._mouseup);
             this._releaseHandler(e);
         };
 
         this._pointerdown = (e) => {
             if (e.isPrimary && e.button === 0) {
-                bind(document, "pointermove", this._pointermove);
-                bind(document, "pointerup", this._pointerup);
-                bind(document, "pointercancel", this._pointerup);
-                bind(document, "contextmenu", preventDefault);
+                bind(this.document, "pointermove", this._pointermove);
+                bind(this.document, "pointerup", this._pointerup);
+                bind(this.document, "pointercancel", this._pointerup);
+                bind(this.document, "contextmenu", preventDefault);
 
                 this._pressHandler(e);
             }
@@ -123,10 +129,10 @@ export class Draggable {
 
         this._pointerup = (e) => {
             if (e.isPrimary) {
-                unbind(document, "pointermove", this._pointermove);
-                unbind(document, "pointerup", this._pointerup);
-                unbind(document, "pointercancel", this._pointerup);
-                unbind(document, "contextmenu", preventDefault);
+                unbind(this.document, "pointermove", this._pointermove);
+                unbind(this.document, "pointerup", this._pointerup);
+                unbind(this.document, "pointercancel", this._pointerup);
+                unbind(this.document, "contextmenu", preventDefault);
 
                 this._releaseHandler(e);
             }
@@ -168,10 +174,10 @@ export class Draggable {
 
         if (this._usePointers()) {
             unbind(element, "pointerdown", this._pointerdown);
-            unbind(document, "pointermove", this._pointermove);
-            unbind(document, "pointerup", this._pointerup);
-            unbind(document, "contextmenu", preventDefault);
-            unbind(document, "pointercancel", this._pointerup);
+            unbind(this.document, "pointermove", this._pointermove);
+            unbind(this.document, "pointerup", this._pointerup);
+            unbind(this.document, "contextmenu", preventDefault);
+            unbind(this.document, "pointercancel", this._pointerup);
             return;
         }
 

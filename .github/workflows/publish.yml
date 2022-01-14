@@ -18,6 +18,11 @@ jobs:
           fetch-depth: 0 # Fetch all branches
           token: ${{ secrets.GH_TOKEN }}
 
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
       - name: Install modules
         run: npm install @telerik/semantic-prerelease@1 --no-save
 

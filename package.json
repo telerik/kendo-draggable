@@ -10,7 +10,7 @@
   "es2015": "dist/es2015/main.js",
   "typings": "dist/npm/main.d.ts",
   "scripts": {
-    "build-package": "gulp build-cdn && gulp build-rollup-package",
+    "build-package": "gulp build-rollup-package build-cdn",
     "test": "gulp e2e",
     "lint": "./node_modules/.bin/eslint ./src/*.js",
     "semantic-release": "semantic-release pre && semantic-prerelease publish && semantic-release post"

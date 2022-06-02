@@ -11,7 +11,7 @@
   "typings": "dist/npm/main.d.ts",
   "scripts": {
     "build-package": "gulp build-rollup-package",
-    "test": "tsc && gulp e2e",
+    "test": "gulp e2e",
     "lint": "./node_modules/.bin/eslint ./src/*.js",
     "semantic-release": "semantic-release pre && semantic-prerelease publish && semantic-release post"
   },
@@ -21,7 +21,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/node": "10.17.13",
-    "@progress/kendo-package-tasks": "^4.0.2",
+    "@progress/kendo-package-tasks": "dev",
     "@progress/semantic-prerelease": "^3.0.0",
     "cz-conventional-changelog": "^1.1.5",
     "eslint": "^8.16.0",

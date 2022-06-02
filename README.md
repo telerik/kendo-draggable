@@ -27,7 +27,7 @@ A drag sequence means:
 The library is published as a [scoped NPM package](https://docs.npmjs.com/misc/scope) in the [NPMJS Telerik account](https://www.npmjs.com/~telerik).
 
 ```bash
-npm install --save '@telerik/kendo-draggable';
+npm install --save '@progress/kendo-draggable';
 ```
 
 ## Basic Usage
@@ -35,7 +35,7 @@ npm install --save '@telerik/kendo-draggable';
 The `draggable` class constructor accepts an object with three optional event handler callbacks&mdash;`press`, `drag`, and `release`.
 
 ```javascript
-import Draggable from '@telerik/kendo-draggable';
+import Draggable from '@progress/kendo-draggable';
 
 const draggable = new Draggable({
     press: function(e) {
@@ -94,7 +94,7 @@ The dragging of elements that contain text activates the browser text selection,
 To ignore all touch and pointer events, set `mouseOnly` to `true`. This is useful when you want to keep the default touch-drag behavior, e.g. horizontal scroll.
 
 ```javascript
-import Draggable from '@telerik/kendo-draggable';
+import Draggable from '@progress/kendo-draggable';
 
 const draggable = new Draggable({
     mouseOnly: true,

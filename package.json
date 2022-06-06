@@ -21,7 +21,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/node": "10.17.13",
-    "@progress/kendo-package-tasks": "dev",
+    "@progress/kendo-package-tasks": "^4.0.39",
     "@progress/semantic-prerelease": "^3.0.0",
     "cz-conventional-changelog": "^1.1.5",
     "eslint": "^8.16.0",

@@ -12,17 +12,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.8.0
-        with:
-          access_token: ${{ github.token }}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
+    steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
 
@@ -37,4 +36,3 @@ jobs:
 
       - name: Run unit tests
         run: CHROME_BIN=`which chrome || which chromium-browser` ENV_BROWSER=Chrome_headless npm run test
-

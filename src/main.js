@@ -51,16 +51,18 @@ export class Draggable {
 
     get document() {
         return this._element
-        ? this._element.ownerDocument
-        : document;
+            ? this._element.ownerDocument
+            : document;
     }
 
-    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false }) {
+    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false, clickMoveClick = false }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
         this._ignoreMouse = false;
+        this._isDragging = false;
         this._mouseOnly = mouseOnly;
+        this._clickMoveClick = clickMoveClick;
 
         this._touchstart = (e) => {
             if (e.touches.length === 1) {
@@ -92,12 +94,24 @@ export class Draggable {
             const { which } = e;
 
             if ((which && which > 1) || this._ignoreMouse) {
+                bind(this.document, "contextmenu", preventDefault);
                 return;
             }
 
-            bind(this.document, "mousemove", this._mousemove);
-            bind(this.document, "mouseup", this._mouseup);
-            this._pressHandler(e);
+            if (!this._clickMoveClick) {
+                bind(this.document, "mouseup", this._mouseup);
+                bind(this.document, "mousemove", this._mousemove);
+                this._pressHandler(e);
+            } else {
+                if (this._isDragging) {
+                    bind(this.document, "mouseup", this._mouseup);
+                } else {
+                    bind(this.document, "mousemove", this._mousemove);
+                    this._pressHandler(e);
+                }
+
+                this._isDragging = !this._isDragging;
+            }
         };
 
         this._mousemove = (e) => {
@@ -112,12 +126,25 @@ export class Draggable {
 
         this._pointerdown = (e) => {
             if (e.isPrimary && e.button === 0) {
-                bind(this.document, "pointermove", this._pointermove);
-                bind(this.document, "pointerup", this._pointerup);
-                bind(this.document, "pointercancel", this._pointerup);
-                bind(this.document, "contextmenu", preventDefault);
 
-                this._pressHandler(e);
+                if (!this._clickMoveClick) {
+                    bind(this.document, "pointerup", this._pointerup);
+                    bind(this.document, "pointercancel", this._pointerup);
+                    bind(this.document, "contextmenu", preventDefault);
+                    bind(this.document, "pointermove", this._pointermove);
+                    this._pressHandler(e);
+                } else {
+                    if (this._isDragging) {
+                        bind(this.document, "pointerup", this._pointerup);
+                        bind(this.document, "pointercancel", this._pointerup);
+                    } else {
+                        bind(this.document, "pointermove", this._pointermove);
+                        this._pressHandler(e);
+                    }
+
+                    this._isDragging = !this._isDragging;
+                }
+
             }
         };
 

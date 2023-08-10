@@ -15,6 +15,7 @@ const touchRegExp = /touch/;
 // 300ms is the usual mouse interval;
 // // However, an underpowered mobile device under a heavy load may queue mouse events for a longer period.
 const IGNORE_MOUSE_TIMEOUT = 2000;
+const ESC = 27;
 
 function normalizeEvent(e) {
     if (e.type.match(touchRegExp)) {
@@ -55,10 +56,11 @@ export class Draggable {
             : document;
     }
 
-    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false, clickMoveClick = false }) {
+    constructor({ press = noop, drag = noop, release = noop, cancel = noop, mouseOnly = false, clickMoveClick = false }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
+        this._cancelHandler = proxy(normalizeEvent, cancel);
         this._ignoreMouse = false;
         this._isDragging = false;
         this._mouseOnly = mouseOnly;
@@ -139,12 +141,17 @@ export class Draggable {
                         bind(this.document, "pointercancel", this._pointerup);
                     } else {
                         bind(this.document, "pointermove", this._pointermove);
+                        bind(this.document, "keydown", this._keydown);
                         this._pressHandler(e);
                     }
 
                     this._isDragging = !this._isDragging;
                 }
+            }
 
+            if (this._clickMoveClick && e.button == 2) {
+                this.cancelDrag(e);
+                this._cancelHandler(e);
             }
         };
 
@@ -161,14 +168,25 @@ export class Draggable {
                 unbind(this.document, "pointercancel", this._pointerup);
                 unbind(this.document, "contextmenu", preventDefault);
 
+                if (this.clickMoveClick){
+                    unbind(this.document, "keydown", this._keydown);
+                }
+
                 this._releaseHandler(e);
+            }
+        };
+
+        this._keydown = (e) => {
+            if (e.keyCode === ESC) {
+                this.cancelDrag(e);
+                this._cancelHandler(e);
             }
         };
     }
 
     bindTo(element) {
         if (element === this._element) {
-            return;
+            return;   
         }
 
         if (this._element) {
@@ -177,6 +195,18 @@ export class Draggable {
 
         this._element = element;
         this._bindToCurrent();
+    }
+
+    cancelDrag() {
+        unbind(this.document, "pointermove", this._pointermove);
+        unbind(this.document, "pointerup", this._pointerup);
+        unbind(this.document, "pointercancel", this._pointerup);
+        
+        if (this.clickMoveClick) {
+            unbind(this.document, "contextmenu", preventDefault);
+        }
+        
+        this._isDragging = !this._isDragging;
     }
 
     _bindToCurrent() {

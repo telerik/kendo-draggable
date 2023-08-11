@@ -97,18 +97,25 @@ export class Draggable {
 
             if ((which && which > 1) || this._ignoreMouse) {
                 bind(this.document, "contextmenu", preventDefault);
+                
+                this.cancelDrag(e);
+
+                this._cancelHandler(e);
+
                 return;
             }
 
             if (!this._clickMoveClick) {
                 bind(this.document, "mouseup", this._mouseup);
                 bind(this.document, "mousemove", this._mousemove);
+                bind(this.document, "contextmenu", preventDefault);
                 this._pressHandler(e);
             } else {
                 if (this._isDragging) {
                     bind(this.document, "mouseup", this._mouseup);
                 } else {
                     bind(this.document, "mousemove", this._mousemove);
+                    bind(this.document, "keydown", this._keydown);
                     this._pressHandler(e);
                 }
 
@@ -123,6 +130,12 @@ export class Draggable {
         this._mouseup = (e) => {
             unbind(this.document, "mousemove", this._mousemove);
             unbind(this.document, "mouseup", this._mouseup);
+
+            if (this.clickMoveClick){
+                unbind(this.document, "keydown", this._keydown);
+                unbind(this.document, "contextmenu", preventDefault);
+            }
+
             this._releaseHandler(e);
         };
 

@@ -139,6 +139,12 @@ export class Draggable {
         };
     }
 
+    cancelDrag() {
+        unbind(this.document, "pointermove", this._pointermove);
+        unbind(this.document, "pointerup", this._pointerup);
+        unbind(this.document, "pointercancel", this._pointerup);
+    }
+
     bindTo(element) {
         if (element === this._element) {
             return;

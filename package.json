@@ -13,48 +13,22 @@
     "build-package": "gulp build-rollup-package build-cdn",
     "test": "gulp e2e",
     "lint": "./node_modules/.bin/eslint ./src/*.js",
-    "semantic-release": "semantic-release pre && semantic-prerelease publish && semantic-release post"
+    "prepare": "husky"
   },
   "keywords": [
     "Kendo UI"
   ],
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "10.17.13",
-    "@progress/kendo-package-tasks": "^4.0.39",
-    "@progress/semantic-prerelease": "^3.0.0",
-    "cz-conventional-changelog": "^1.1.5",
+    "@commitlint/cli": "^20.0.1",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@types/node": "^24.10.1",
+    "@progress/kendo-package-tasks": "^5.0.0",
     "eslint": "^8.16.0",
-    "ghooks": "^1.0.3",
-    "gulp": "^4.0.0",
-    "semantic-release": "^6.3.6",
-    "typescript": "^2.9.2",
+    "gulp": "^5.0.1",
+    "husky": "^9.1.7",
+    "typescript": "~5.2.2",
     "validate-commit-msg": "^1.1.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    },
-    "ghooks": {
-      "pre-commit": "npm run lint",
-      "commit-msg": "validate-commit-msg",
-      "pre-push": "npm run test"
-    },
-    "validate-commit-msg": {
-      "types": [
-        "feat",
-        "fix",
-        "docs",
-        "style",
-        "refactor",
-        "perf",
-        "test",
-        "chore",
-        "revert"
-      ],
-      "warnOnFail": false,
-      "maxSubjectLength": 100
-    }
   },
   "repository": {
     "type": "git",
@@ -62,20 +36,6 @@
   },
   "bugs": {
     "url": "https://github.com/telerik/kendo-draggable/issues"
-  },
-  "release": {
-    "debug": false,
-    "branchTags": {
-      "develop": "dev"
-    },
-    "fallbackTags": {
-      "dev": "latest"
-    },
-    "analyzeCommits": "@progress/semantic-prerelease/analyzeCommits",
-    "generateNotes": "@progress/semantic-prerelease/generateNotes",
-    "getLastRelease": "@progress/semantic-prerelease/getLastRelease",
-    "verifyConditions": "@progress/semantic-prerelease/verifyConditions",
-    "verifyRelease": "@progress/semantic-prerelease/verifyRelease"
   },
   "files": [
     "dist"

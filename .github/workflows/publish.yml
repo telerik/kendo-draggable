@@ -8,7 +8,7 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
         id-token: write # Required by Akeyless
@@ -18,26 +18,24 @@ jobs:
     steps:
       - name: Import Secrets
         id: import-secrets
-        uses: LanceMcCarthy/akeyless-action@v3
+        uses: LanceMcCarthy/akeyless-action@v5
         with:
           access-id: ${{ secrets.GH_AKEYLESS_ACCESS_ID }}
           static-secrets: '{ "/WebComponents/prod/tokens/GH_TOKEN": "GH_TOKEN" }'
           export-secrets-to-environment: false
 
       - name: Check out master
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           ref: master
           fetch-depth: 0 # Fetch all branches
           token: ${{ steps.import-secrets.outputs.GH_TOKEN }}
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v6
         with:
-          node-version: '14'
-
-      - name: Install modules
-        run: npm install @progress/semantic-prerelease --no-save
+          node-version: 24
 
       - name: Fast-forward master to develop
-        run: npx release-master
+        run: |
+          npm install --no-save @progress/kendo-common-tasks
+          ./node_modules/.bin/publish-develop-to-master

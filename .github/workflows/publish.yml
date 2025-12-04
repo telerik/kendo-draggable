@@ -1,21 +1,23 @@
-# Publishes changes from develop to master.
-#
-# * Triggers the CD workflow to publish the package if needed.
-# * Documentation will be published on the official site.
+# Fast-forwards master to develop and triggers the CD workflow to publish the package.
 name: Publish
 
 on: workflow_dispatch
 
 jobs:
   build:
+    environment: publish
     runs-on: ubuntu-24.04
 
     permissions:
-        id-token: write # Required by Akeyless
-        contents: read
-        packages: read
+      id-token: write # Required by Akeyless
+      contents: read
+      packages: read
 
     steps:
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
       - name: Import Secrets
         id: import-secrets
         uses: LanceMcCarthy/akeyless-action@v5
@@ -31,11 +33,7 @@ jobs:
           fetch-depth: 0 # Fetch all branches
           token: ${{ steps.import-secrets.outputs.GH_TOKEN }}
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-
       - name: Fast-forward master to develop
         run: |
-          npm install --no-save @progress/kendo-common-tasks
-          ./node_modules/.bin/publish-develop-to-master
+          git merge --ff-only origin/develop
+          git push origin master

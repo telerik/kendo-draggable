@@ -15,6 +15,7 @@ const touchRegExp = /touch/;
 // 300ms is the usual mouse interval;
 // // However, an underpowered mobile device under a heavy load may queue mouse events for a longer period.
 const IGNORE_MOUSE_TIMEOUT = 2000;
+const ESC = 27;
 
 function normalizeEvent(e) {
     if (e.type.match(touchRegExp)) {
@@ -51,16 +52,19 @@ export class Draggable {
 
     get document() {
         return this._element
-        ? this._element.ownerDocument
-        : document;
+            ? this._element.ownerDocument
+            : document;
     }
 
-    constructor({ press = noop, drag = noop, release = noop, mouseOnly = false }) {
+    constructor({ press = noop, drag = noop, release = noop, cancel = noop, mouseOnly = false, clickMoveClick = false }) {
         this._pressHandler = proxy(normalizeEvent, press);
         this._dragHandler = proxy(normalizeEvent, drag);
         this._releaseHandler = proxy(normalizeEvent, release);
+        this._cancelHandler = proxy(normalizeEvent, cancel);
         this._ignoreMouse = false;
+        this._isDragging = false;
         this._mouseOnly = mouseOnly;
+        this._clickMoveClick = clickMoveClick;
 
         this._touchstart = (e) => {
             if (e.touches.length === 1) {
@@ -92,12 +96,31 @@ export class Draggable {
             const { which } = e;
 
             if ((which && which > 1) || this._ignoreMouse) {
+                bind(this.document, "contextmenu", preventDefault);
+                
+                this.cancelDrag(e);
+
+                this._cancelHandler(e);
+
                 return;
             }
 
-            bind(this.document, "mousemove", this._mousemove);
-            bind(this.document, "mouseup", this._mouseup);
-            this._pressHandler(e);
+            if (!this._clickMoveClick) {
+                bind(this.document, "mouseup", this._mouseup);
+                bind(this.document, "mousemove", this._mousemove);
+                bind(this.document, "contextmenu", preventDefault);
+                this._pressHandler(e);
+            } else {
+                if (this._isDragging) {
+                    bind(this.document, "mouseup", this._mouseup);
+                } else {
+                    bind(this.document, "mousemove", this._mousemove);
+                    bind(this.document, "keydown", this._keydown);
+                    this._pressHandler(e);
+                }
+
+                this._isDragging = !this._isDragging;
+            }
         };
 
         this._mousemove = (e) => {
@@ -107,17 +130,41 @@ export class Draggable {
         this._mouseup = (e) => {
             unbind(this.document, "mousemove", this._mousemove);
             unbind(this.document, "mouseup", this._mouseup);
+
+            if (this.clickMoveClick){
+                unbind(this.document, "keydown", this._keydown);
+                unbind(this.document, "contextmenu", preventDefault);
+            }
+
             this._releaseHandler(e);
         };
 
         this._pointerdown = (e) => {
             if (e.isPrimary && e.button === 0) {
-                bind(this.document, "pointermove", this._pointermove);
-                bind(this.document, "pointerup", this._pointerup);
-                bind(this.document, "pointercancel", this._pointerup);
-                bind(this.document, "contextmenu", preventDefault);
 
-                this._pressHandler(e);
+                if (!this._clickMoveClick) {
+                    bind(this.document, "pointerup", this._pointerup);
+                    bind(this.document, "pointercancel", this._pointerup);
+                    bind(this.document, "contextmenu", preventDefault);
+                    bind(this.document, "pointermove", this._pointermove);
+                    this._pressHandler(e);
+                } else {
+                    if (this._isDragging) {
+                        bind(this.document, "pointerup", this._pointerup);
+                        bind(this.document, "pointercancel", this._pointerup);
+                    } else {
+                        bind(this.document, "pointermove", this._pointermove);
+                        bind(this.document, "keydown", this._keydown);
+                        this._pressHandler(e);
+                    }
+
+                    this._isDragging = !this._isDragging;
+                }
+            }
+
+            if (this._clickMoveClick && e.button == 2) {
+                this.cancelDrag(e);
+                this._cancelHandler(e);
             }
         };
 
@@ -134,7 +181,18 @@ export class Draggable {
                 unbind(this.document, "pointercancel", this._pointerup);
                 unbind(this.document, "contextmenu", preventDefault);
 
+                if (this.clickMoveClick){
+                    unbind(this.document, "keydown", this._keydown);
+                }
+
                 this._releaseHandler(e);
+            }
+        };
+
+        this._keydown = (e) => {
+            if (e.keyCode === ESC) {
+                this.cancelDrag(e);
+                this._cancelHandler(e);
             }
         };
     }
@@ -147,7 +205,7 @@ export class Draggable {
 
     bindTo(element) {
         if (element === this._element) {
-            return;
+            return;   
         }
 
         if (this._element) {
@@ -156,6 +214,18 @@ export class Draggable {
 
         this._element = element;
         this._bindToCurrent();
+    }
+
+    cancelDrag() {
+        unbind(this.document, "pointermove", this._pointermove);
+        unbind(this.document, "pointerup", this._pointerup);
+        unbind(this.document, "pointercancel", this._pointerup);
+        
+        if (this.clickMoveClick) {
+            unbind(this.document, "contextmenu", preventDefault);
+        }
+        
+        this._isDragging = !this._isDragging;
     }
 
     _bindToCurrent() {
